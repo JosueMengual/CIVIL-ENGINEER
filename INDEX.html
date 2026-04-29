@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concrete Mix Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="calculator-container">
+        <header>
+            <h1>Concrete Mix Calculator</h1>
+            <p>Civil Engineering & Construction</p>
+        </header>
+
+        <main>
+            <div class="input-group">
+                <label for="volume">Required Volume (m³):</label>
+                <input type="number" id="volume" placeholder="e.g. 5.5" min="0.1" step="0.1">
+            </div>
+
+            <div class="input-group">
+                <label for="mix-ratio">Mix Ratio (Cement : Sand : Stone):</label>
+                <select id="mix-ratio">
+                    <option value="1:2:3">1:2:3 (Beams & Columns - High Strength)</option>
+                    <option value="1:2:4">1:2:4 (Foundations - Medium Strength)</option>
+                    <option value="1:3:3">1:3:3 (Floors & Slabs - Low Strength)</option>
+                </select>
+            </div>
+
+            <button id="calculate-btn">Calculate Materials</button>
+            <div id="error-message" class="error hidden">Please enter a valid volume greater than 0.</div>
+
+            <div class="results-container hidden" id="results">
+                <h2>Required Materials</h2>
+                <div class="result-grid">
+                    <div class="result-card">
+                        <span class="label">Cement</span>
+                        <span class="value" id="res-cement">0</span>
+                        <span class="unit">kg</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="label">Sand</span>
+                        <span class="value" id="res-sand">0</span>
+                        <span class="unit">m³</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="label">Stone</span>
+                        <span class="value" id="res-gravel">0</span>
+                        <span class="unit">m³</span>
+                    </div>
+                    <div class="result-card">
+                        <span class="label">Water</span>
+                        <span class="value" id="res-water">0</span>
+                        <span class="unit">Liters</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
