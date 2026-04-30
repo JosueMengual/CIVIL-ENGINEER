@@ -31,6 +31,8 @@
             <button id="calculate-btn">Calculate Materials</button>
             <div id="error-message" class="error hidden">Please enter a valid volume greater than 0.</div>
 
+            <button id="clear-btn" class="secondary-btn">Clear All Data</button>
+
             <div class="results-container hidden" id="results">
                 <h2>Required Materials</h2>
                 <div class="result-grid">
@@ -55,6 +57,12 @@
                         <span class="unit">Liters</span>
                     </div>
                 </div>
+
+                <section class="history-container" id="history-section">
+                <h3>Recent Calculations</h3>
+                <div id="history-list"></div>
+            </section>
+            
             </div>
         </main>
     </div>
