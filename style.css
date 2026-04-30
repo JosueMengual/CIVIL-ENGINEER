@@ -164,3 +164,40 @@ button:active {
         grid-template-columns: 1fr;
     }
 }
+
+.secondary-btn {
+    margin-top: 15px;
+    color: var(--error) !important;
+    font-size: 0.9rem !important;
+}
+
+.history-container {
+    margin-top: 40px;
+    text-align: left;
+}
+
+.history-container h3 {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+}
+
+.history-card {
+    padding: 15px;
+    border-radius: 12px;
+    background-color: var(--bg-color);
+    box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+}
+
+.history-card .date {
+    display: block;
+    color: var(--accent);
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.history-card .details {
+    color: var(--text-main);
+}
