@@ -7,40 +7,89 @@ const mixData = {
 const volumeInput = document.getElementById('volume');
 const mixRatioSelect = document.getElementById('mix-ratio');
 const calculateBtn = document.getElementById('calculate-btn');
+const clearBtn = document.getElementById('clear-btn');
 const resultsContainer = document.getElementById('results');
-const errorMessage = document.getElementById('error-message');
+const historyList = document.getElementById('history-list');
 
-const resCement = document.getElementById('res-cement');
-const resSand = document.getElementById('res-sand');
-const resGravel = document.getElementById('res-gravel');
-const resWater = document.getElementById('res-water');
+let calculationHistory = [];
 
-const calculateMaterials = () => {
-    const volume = parseFloat(volumeInput.value);
-    const selectedMix = mixRatioSelect.value;
+const init = () => {
+    const savedVolume = localStorage.getItem('lastVolume');
+    const savedRatio = localStorage.getItem('lastRatio');
+    const savedHistory = localStorage.getItem('calcHistory');
 
-    if (isNaN(volume) || volume <= 0) {
-        errorMessage.classList.remove('hidden');
-        resultsContainer.classList.add('hidden');
-        return;
+    if (savedVolume) volumeInput.value = savedVolume;
+    if (savedRatio) mixRatioSelect.value = savedRatio;
+    if (savedHistory) {
+        calculationHistory = JSON.parse(savedHistory);
+        renderHistory();
     }
-
-    errorMessage.classList.add('hidden');
-
-    const baseMaterials = mixData[selectedMix];
-
-    resCement.textContent = (baseMaterials.cement * volume).toFixed(2);
-    resSand.textContent = (baseMaterials.sand * volume).toFixed(2);
-    resGravel.textContent = (baseMaterials.gravel * volume).toFixed(2);
-    resWater.textContent = (baseMaterials.water * volume).toFixed(2);
-
-    resultsContainer.classList.remove('hidden');
 };
 
-calculateBtn.addEventListener('click', calculateMaterials);
+const saveToLocalStorage = (volume, ratio, history) => {
+    localStorage.setItem('lastVolume', volume);
+    localStorage.setItem('lastRatio', ratio);
+    localStorage.setItem('calcHistory', JSON.stringify(history));
+};
 
-volumeInput.addEventListener('keypress', (event) => {
-    if (event.key === 'Enter') {
-        calculateMaterials();
-    }
-});
+const renderHistory = () => {
+    historyList.innerHTML = '';
+    calculationHistory.slice().reverse().forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'history-card';
+        card.innerHTML = `
+            <span class="date">${item.date}</span>
+            <div class="details">
+                <strong>Vol:</strong> ${item.vol} m³ | <strong>Mix:</strong> ${item.ratio}<br>
+                C: ${item.c}kg | S: ${item.s}m³ | G: ${item.g}m³ | W: ${item.w}L
+            </div>
+        `;
+        historyList.appendChild(card);
+    });
+};
+
+const calculate = () => {
+    const vol = parseFloat(volumeInput.value);
+    const ratio = mixRatioSelect.value;
+
+    if (isNaN(vol) || vol <= 0) return alert("Please enter a valid volume");
+
+    const base = mixData[ratio];
+    const results = {
+        c: (base.cement * vol).toFixed(2),
+        s: (base.sand * vol).toFixed(2),
+        g: (base.gravel * vol).toFixed(2),
+        w: (base.water * vol).toFixed(2)
+    };
+
+    document.getElementById('res-cement').textContent = results.c;
+    document.getElementById('res-sand').textContent = results.s;
+    document.getElementById('res-gravel').textContent = results.g;
+    document.getElementById('res-water').textContent = results.w;
+    resultsContainer.classList.remove('hidden');
+
+    const newEntry = {
+        date: new Date().toLocaleString(),
+        vol,
+        ratio,
+        ...results
+    };
+
+    calculationHistory.push(newEntry);
+    if (calculationHistory.length > 5) calculationHistory.shift(); 
+
+    saveToLocalStorage(vol, ratio, calculationHistory);
+    renderHistory();
+};
+
+const clearData = () => {
+    localStorage.clear();
+    calculationHistory = [];
+    volumeInput.value = '';
+    resultsContainer.classList.add('hidden');
+    renderHistory();
+};
+
+calculateBtn.addEventListener('click', calculate);
+clearBtn.addEventListener('click', clearData);
+window.addEventListener('load', init);
