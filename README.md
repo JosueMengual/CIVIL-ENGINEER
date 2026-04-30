@@ -2,7 +2,7 @@
 CONSTRUCTION TOOLS
 # Concrete Mix Calculator
 
-A professional, minimalist web tool designed for civil engineers and construction professionals. It provides instant calculation of required materials (cement, sand, stone, and water) based on the total concrete volume and selected mix ratio.
+A professional, minimalist web tool designed for construction workers. It provides instant calculation of required materials (cement, sand, stone, and water) based on the total concrete volume and selected mix ratio.
 
 ## Features
 
